@@ -5,7 +5,7 @@ const sql = require('mssql');
 
 // Configuración de la conexión a SQL Server
 const config = {
-  user: 'Kennyxd_SQLLogin_1',
+  user: 'kenny514_SQLLogin_1',
   password: 'e7bf38hjqp',
   server: 'ProyectoTesis.mssql.somee.com',
   database: 'ProyectoTesis',
@@ -199,7 +199,7 @@ function checkOrderStatus(agent) {
 // Función para realizar una consulta de categorías en la base de datos
 function queryCategorias(connection) {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM Categoria where esActivo  = 1", (error, results, fields) => {
+    connection.query("SELECT DISTINCT c.* FROM Categoria c JOIN Producto p ON c.IdCategoria = p.IdCategoria WHERE p.Activo = 1", (error, results, fields) => {
       if (error) {
         reject(error);
       } else {
@@ -217,7 +217,7 @@ function ListarCategorias(agent) {
       const categorias = result && result.recordset;
 
       if (categorias && categorias.length > 0) {
-        const nombresCategorias = categorias.map(categoria => categoria.descripcion);
+        const nombresCategorias = categorias.map(categoria => categoria.Descripcion);
         agent.add("🌟 Claro, tengo estas variedades de categorías para ofrecerte. 🤖💼");
         nombresCategorias.forEach((nombre) => {
           agent.add(`${nombre}`);
